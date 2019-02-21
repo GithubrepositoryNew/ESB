@@ -6,6 +6,7 @@ CREATE DATABASE MODULE DB_RETRIEVE_Database
 		RETURN TRUE;
 		--for testing purpose
 		--new change
+		--adding bharu
 	END;
 
 END MODULE;
