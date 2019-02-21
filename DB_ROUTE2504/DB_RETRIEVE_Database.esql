@@ -5,6 +5,7 @@ CREATE DATABASE MODULE DB_RETRIEVE_Database
 	BEGIN
 		RETURN TRUE;
 		--for testing purpose
+		--new change
 	END;
 
 END MODULE;
