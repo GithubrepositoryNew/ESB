@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmDatabaseRoute.msgnode="ComIbmDatabaseRoute.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:ComIbmMQOutput.msgnode="ComIbmMQOutput.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="New_DB_ROUTE1.msgflow"
+    nsPrefix="New_DB_ROUTE1.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="New_DB_ROUTE1" bundleName="New_DB_ROUTE1" pluginId="DB_ROUTE2504"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/DB_ROUTE2504/icons/full/obj16/New_DB_ROUTE1.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/DB_ROUTE2504/icons/full/obj30/New_DB_ROUTE1.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="156,104" queueName="IN" messageDomainProperty="XMLNSC">
+        <translation xmi:type="utility:ConstantString" string="MQ Input"/>
+      </nodes>
+      <nodes xmi:type="ComIbmDatabaseRoute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="291,147" dataSourceName="Data4" sqlQuery="SELECT Emp.ID&#xA;FROM Emp&#xA;WHERE Emp.Name = ?&#xA;ORDER BY Emp.ID ASC" tableNameComboValues="0,0~Emp" columnNameComboValues="0,1~ID,Name" operatorComboValues="0,2~=" valueTypeComboValues="0,2~Element">
+        <outTerminals terminalNodeID="Match" dynamic="true" label="Match"/>
+        <outTerminals terminalNodeID="OUT" dynamic="true" label="OUT"/>
+        <outTerminals terminalNodeID="OUT1" dynamic="true" label="OUT1"/>
+        <outTerminals terminalNodeID="OUT2" dynamic="true" label="OUT2"/>
+        <translation xmi:type="utility:ConstantString" string="Database Route"/>
+        <queryElements tableName="Emp" columnName="ID" operator="ASC" valueType="None" value="None"/>
+        <queryElements tableName="Emp" columnName="Name" operator="=" valueType="Element" value="$Body/Emp/Name"/>
+        <filterTable filterPattern="$Emp_ID >10" routingOutputTerminal="OUT"/>
+        <filterTable filterPattern="$Emp_ID&lt;9" routingOutputTerminal="OUT1"/>
+        <filterTable filterPattern="$Emp_ID=2" routingOutputTerminal="OUT2"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="476,80" queueName="OUT">
+        <translation xmi:type="utility:ConstantString" string="MQ Output"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="514,212" queueName="OUT1">
+        <translation xmi:type="utility:ConstantString" string="MQ Output1"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_5" location="461,282" queueName="OUT2">
+        <translation xmi:type="utility:ConstantString" string="MQ Output2"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_2" sourceTerminalName="OUT" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OUT1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_2" sourceTerminalName="OUT2" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>
