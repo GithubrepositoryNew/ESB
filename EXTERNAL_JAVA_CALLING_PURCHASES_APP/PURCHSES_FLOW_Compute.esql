@@ -1,0 +1,52 @@
+
+
+CREATE COMPUTE MODULE PURCHSES_FLOW_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		DECLARE ITEM_NAME,STATUS CHARACTER;
+		DECLARE ITEM_PRICE,TOTAL_ITEM_TAGS,INSIDE_ITEM_TAG INTEGER;
+		
+		DECLARE I INTEGER 1;
+		
+		SET TOTAL_ITEM_TAGS=CARDINALITY(InputRoot.XMLNSC.purchase.item[]);
+		
+		WHILE (TOTAL_ITEM_TAGS>0) DO
+			
+			SET INSIDE_ITEM_TAG=CARDINALITY(InputRoot.XMLNSC.purchase.item[I].*[]);
+			SET ITEM_NAME=InputRoot.XMLNSC.purchase.item[I].item_name;
+			SET ITEM_PRICE=InputRoot.XMLNSC.purchase.item[I].item_price;
+			
+			CALL Parchase(ITEM_NAME,ITEM_PRICE)INTO STATUS;
+			
+			SET OutputRoot.XMLNSC.purchase.item[I].NAME=ITEM_NAME;
+			SET OutputRoot.XMLNSC.purchase.item[I].COST=ITEM_PRICE;
+			
+			SET I=I+1;		
+			
+			
+		END WHILE;
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE Parchase(IN I_NAME CHARACTER,IN I_COST INTEGER) RETURNS CHARACTER
+	LANGUAGE JAVA
+	EXTERNAL NAME "com.mss.PurchseOrders.purchases";
+	
+	
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
